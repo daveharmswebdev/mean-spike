@@ -25,12 +25,10 @@ exports.list = (req, res, next) => {
 }
 
 exports.read = (req, res) => {
-	console.log('req.user', req.user)
 	res.json(req.user)
 }
 
 exports.userByID = (req, res, next, id) => {
-	console.log('id', id)
 	User.findOne({
 		_id: id
 	}, (err, user) => {
@@ -39,6 +37,16 @@ exports.userByID = (req, res, next, id) => {
 		} else {
 			req.user = user
 			next()
+		}
+	})
+}
+
+exports.update = (req, res, next) => {
+	User.findByIdAndUpdate(req.user.id, req.body, (err, user) => {
+		if (err) {
+			return next(err)
+		} else {
+			res.json(user)
 		}
 	})
 }
