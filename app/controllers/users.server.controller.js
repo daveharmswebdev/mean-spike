@@ -23,3 +23,22 @@ exports.list = (req, res, next) => {
 		}
 	})
 }
+
+exports.read = (req, res) => {
+	console.log('req.user', req.user)
+	res.json(req.user)
+}
+
+exports.userByID = (req, res, next, id) => {
+	console.log('id', id)
+	User.findOne({
+		_id: id
+	}, (err, user) => {
+		if (err) {
+			return next(err)
+		} else {
+			req.user = user
+			next()
+		}
+	})
+}
